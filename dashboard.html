@@ -3,22 +3,145 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trang Quản Lý - Lux Mobile</title>
+    <title>Trang Quản Lý Sản Phẩm - Lux Mobile</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #f8fafc; margin: 0; padding: 20px; }
-        .header { background: #0f172a; color: white; padding: 20px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; }
-        .content { margin-top: 20px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .btn-logout { background: #ef4444; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; text-decoration: none; font-size: 14px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #f1f5f9; color: #334155; }
+        .header { background: #0f172a; color: white; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .brand { font-size: 22px; font-weight: bold; }
+        .brand span { color: #2563eb; }
+        .btn-logout { background: #ef4444; color: white; border: none; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-size: 14px; font-weight: 600; cursor: pointer; transition: 0.2s; }
+        .btn-logout:hover { background: #dc2626; }
+        
+        .container { max-width: 1100px; margin: 30px auto; padding: 0 20px; }
+        .card { background: white; padding: 25px; border-radius: 10px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); margin-bottom: 25px; }
+        .card h3 { margin-bottom: 15px; color: #0f172a; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; }
+        
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 15px; }
+        .form-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 5px; color: #475569; }
+        .form-group input, .form-group select { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; outline: none; font-size: 14px; }
+        .form-group input:focus, .form-group select:focus { border-color: #2563eb; }
+        .btn-add { background: #2563eb; color: white; border: none; padding: 10px 20px; border-radius: 6px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+        .btn-add:hover { background: #1d4ed8; }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #e2e8f0; font-size: 14px; }
+        th { background-color: #f8fafc; font-weight: 600; color: #475569; }
+        .badge-stock { background: #dcfce7; color: #166534; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; }
+        .btn-delete { background: #fee2e2; color: #ef4444; border: 1px solid #fca5a5; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: 600; }
+        .btn-delete:hover { background: #ef4444; color: white; }
     </style>
 </head>
 <body>
+
     <div class="header">
-        <h2>Lux Mobile - Hệ Thống Quản Lý</h2>
+        <div class="brand">Lux <span>Mobile</span> Admin</div>
         <a href="login.html" class="btn-logout">Đăng xuất</a>
     </div>
-    <div class="content">
-        <h3>Xin chào, Staff / Admin!</h3>
-        <p>Đăng nhập thành công! Bạn có thể bắt đầu sử dụng các chức năng quản lý cửa hàng.</p>
+
+    <div class="container">
+        <!-- Form Thêm Sản Phẩm Mới -->
+        <div class="card">
+            <h3>Thêm Sản Phẩm Điện Thoại Mới</h3>
+            <form id="add-product-form">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="name">Tên sản phẩm</label>
+                        <input type="text" id="name" placeholder="Ví dụ: iPhone 15 Pro Max" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="brand">Hãng sản xuất</label>
+                        <select id="brand" required>
+                            <option value="Apple">Apple</option>
+                            <option value="Samsung">Samsung</option>
+                            <option value="Xiaomi">Xiaomi</option>
+                            <option value="OPPO">OPPO</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="price">Giá bán (VNĐ)</label>
+                        <input type="number" id="price" placeholder="Ví dụ: 29990000" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="quantity">Số lượng tồn kho</label>
+                        <input type="number" id="quantity" placeholder="Ví dụ: 10" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn-add">+ Thêm Vào Danh Sách</button>
+            </form>
+        </div>
+
+        <!-- Bảng Danh Sách Sản Phẩm -->
+        <div class="card">
+            <h3>Danh Sách Điện Thoại Trong Kho</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Tên sản phẩm</th>
+                        <th>Hãng</th>
+                        <th>Giá bán</th>
+                        <th>Tồn kho</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody id="product-list">
+                    <tr>
+                        <td>1</td>
+                        <td>iPhone 15 Pro Max 256GB</td>
+                        <td>Apple</td>
+                        <td>29,990,000 VNĐ</td>
+                        <td><span class="badge-stock">15 máy</span></td>
+                        <td><button class="btn-delete" onclick="deleteRow(this)">Xóa</button></td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Samsung Galaxy S24 Ultra</td>
+                        <td>Samsung</td>
+                        <td>26,990,000 VNĐ</td>
+                        <td><span class="badge-stock">8 máy</span></td>
+                        <td><button class="btn-delete" onclick="deleteRow(this)">Xóa</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
+
+    <script>
+        let count = 2;
+
+        document.getElementById('add-product-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const brand = document.getElementById('brand').value;
+            const price = parseInt(document.getElementById('price').value).toLocaleString('vi-VN');
+            const quantity = document.getElementById('quantity').value;
+
+            count++;
+            const tbody = document.getElementById('product-list');
+            const newRow = document.createElement('tr');
+
+            newRow.innerHTML = `
+                <td>${count}</td>
+                <td>${name}</td>
+                <td>${brand}</td>
+                <td>${price} VNĐ</td>
+                <td><span class="badge-stock">${quantity} máy</span></td>
+                <td><button class="btn-delete" onclick="deleteRow(this)">Xóa</button></td>
+            `;
+
+            tbody.appendChild(newRow);
+            document.getElementById('add-product-form').reset();
+        });
+
+        function deleteRow(button) {
+            if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này khỏi hệ thống?')) {
+                const row = button.parentElement.parentElement;
+                row.remove();
+            }
+        }
+    </script>
+
 </body>
 </html>
